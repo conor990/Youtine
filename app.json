@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "Youtine",
+    "slug": "Youtine",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./components/assets/logo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./components/assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#479657"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./components/assets/logo.png",
+        "backgroundColor": "#479657"
+      }
+    },
+    "web": {
+      "favicon": "./components/assets/logo.png"
+    }
+  }
+}
