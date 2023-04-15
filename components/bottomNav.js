@@ -99,6 +99,7 @@ const BottomNav = ({ navigation }) => {
             />
           </View>
         ),
+        tabBarLabel: 'Profile'
       }} />
 
       <Tab.Screen name="Body" component={BodyScreen} options={{
