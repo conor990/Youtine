@@ -1,4 +1,4 @@
-import BottomNavComponent from '../components/bottomNav';
+import BottomNavComponent from '../components/BottomNav';
 import { StyleSheet, Text, View, SafeAreaView, Image, Button } from 'react-native';
 
 export default function BodyScreen({ navigation }){

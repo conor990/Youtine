@@ -2,14 +2,29 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+
 import HomeScreen from '../../screens/HomeScreen';
 import MindScreen from '../../screens/MindScreen';
 import BodyScreen from '../../screens/BodyScreen';
 import MealsScreen from '../../screens/MealsScreen';
+import ProfileScreen from '../../screens/ProfileScreen';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+
+const styles = StyleSheet.create({
+    shadow: {
+      shadowColor: '#5DF07E',
+      shadowOffset: {
+        width: 0,
+        height: 10,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.5,
+      elevation: 5,
+    },
+  });
 
 const Tabs = () => {
   return (
@@ -135,26 +150,29 @@ const Tabs = () => {
 };
 
 const HomeDrawer = () => {
-    return (
-      <NavigationContainer>
-        <Drawer.Navigator
-          drawerContent={(props) => <DrawerContent {...props} />}
-          screenOptions={{
-            headerShown: false,
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontSize: 22,
-              fontWeight: 'bold',
-            },
-            headerTintColor: '#2c3e50',
+  return (
+  <Drawer.Navigator 
+    screenOptions={{
+    headerShown: false,
+    tabBarShowLabel: false, }}
+  >
 
+    <Drawer.Screen name="←" component={Tabs} />
+
+    <Drawer.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            drawerLabel: 'Profile',
+            drawerIcon: ({ focused, color, size }) => (
+              <View>
+                <Text>👤</Text>
+              </View>
+            ),
           }}
-        >
-          <Drawer.Screen name="Home" component={Tabs} />
+        />
+  </Drawer.Navigator>
+  )}
 
-        </Drawer.Navigator>
-      </NavigationContainer>
-    );
-  };
-  
+
   export default HomeDrawer;

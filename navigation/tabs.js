@@ -7,7 +7,32 @@ import MealsScreen from '../screens/MealsScreen';
 
 const Tab = createBottomTabNavigator();
 
+
 const Tabs = () => {
+    const styles = StyleSheet.create({
+        shadow:{
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 10,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 3.5,
+            elevation: 5
+        },
+    
+        icons: {
+            width: 30,
+            height: 30,
+            shadowColor: focused ? '#6e9f7b' : 'grey',
+        
+            shadowOffset: {
+              width:.5,
+              height: .5
+            },
+            shadowOpacity:1,
+          }
+    });
     return(
         <Tab.Navigator
 
@@ -135,30 +160,7 @@ const Tabs = () => {
 
 
 
-const styles = StyleSheet.create({
-    shadow:{
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 10,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.5,
-        elevation: 5
-    },
 
-    icons: {
-        width: 30,
-        height: 30,
-        shadowColor: focused ? '#6e9f7b' : 'grey',
-    
-        shadowOffset: {
-          width:.5,
-          height: .5
-        },
-        shadowOpacity:1,
-      }
-});
 
 
 export default Tabs;

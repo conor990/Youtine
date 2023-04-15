@@ -1,15 +1,17 @@
 import BottomNavComponent from '../components/BottomNav';
 import { StyleSheet, Text, View, SafeAreaView, Image, Button } from 'react-native';
+import Tabs from "../navigation/tabs";
+import BottomNav from "../components/BottomNav";
 
-export default function MealsScreen({ navigation }){
+export default function ProfileScreen({ navigation }){
     return(
         <View style={styles.container}>
-        <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
+            <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
   
-        <View style={styles.mainStage}>
+            <View style={styles.mainStage}>
   
 
-
+            <BottomNav />
         
         </View>
   
@@ -50,3 +52,5 @@ const styles = StyleSheet.create({
 
 
 });
+
+
