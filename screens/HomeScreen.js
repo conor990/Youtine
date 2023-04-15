@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, Image, Button } from 'react-nativ
 import InspoComponent from '../components/inspo';
 import TopInfoComponent from '../components/topInfo';
 import TasksComponent from '../components/tasks';
-import BottomNavComponent from '../components/bottomNav';
+import BottomNavComponent from '../components/BottomNav';
 import MindScreen from "./MindScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
