@@ -1,17 +1,22 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import HomeScreen from '../../screens/HomeScreen';
 import MindScreen from '../../screens/MindScreen';
 import BodyScreen from '../../screens/BodyScreen';
 import MealsScreen from '../../screens/MealsScreen';
 import ProfileScreen from '../../screens/ProfileScreen';
+import ArmsScreen from '../../screens/body/ArmsScreen';
 
 const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
+
 
 const styles = StyleSheet.create({
     shadow: {
@@ -25,6 +30,18 @@ const styles = StyleSheet.create({
       elevation: 5,
     },
   });
+
+
+  const ArmsStack = () => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Body" component={BodyScreen} />
+        <Stack.Screen name="Arms" component={ArmsScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+
 
 const Tabs = () => {
   return (
@@ -96,6 +113,8 @@ const Tabs = () => {
         }}
       />
 
+
+
       <Tab.Screen
         name="Body"
         component={BodyScreen}
@@ -145,9 +164,12 @@ const Tabs = () => {
           ),
         }}
       />
+
+
     </Tab.Navigator>
   );
 };
+
 
 const HomeDrawer = () => {
   return (

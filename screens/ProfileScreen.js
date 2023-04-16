@@ -1,4 +1,3 @@
-import BottomNav from "../components/BottomNav";
 import { StyleSheet, View, Text, Image, Button} from 'react-native';
 
 export default function ProfileScreen({ navigation }){

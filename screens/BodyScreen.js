@@ -1,68 +1,84 @@
-import BottomNavComponent from '../components/BottomNav';
-import { StyleSheet, Text, View, SafeAreaView, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, Button, TouchableOpacity } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ArmsScreen from './body/ArmsScreen';
+import LegsScreen from './body/LegsScreen';
+import AbsScreen from './body/AbsScreen';
+import ChestScreen from './body/ChestScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function BodyScreen({ navigation }){
+
     return(
         <View style={styles.container}>
-        <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
+            <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
   
-        <View style={styles.mainStage}>
+            <View style={styles.mainStage}>
 
-        <View style={{width:'100%'}}>
-                <Text style={styles.PageHeading}>What would you like to workout ?...</Text>
+                <View style={{width:'100%'}}>
+                    <Text style={styles.PageHeading}>What would you like to workout ?...</Text>
+                </View>
+
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Arms')}>
+                    <View>
+                        <View style={styles.left}>
+                            <Text style={styles.workoutHeading}>Arms</Text>
+                            <Text style={styles.smallerText}>5 Exercises</Text>
+                            <Text style={styles.smallerText}>60 minutes</Text>
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image style={styles.photos} source={require('../components/assets/bodypage/arms.jpg')} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Chest')}>
+                    <View>
+                        <View style={styles.left}>
+                            <Text style={styles.workoutHeading}>Chest</Text>
+                            <Text style={styles.smallerText}>5 Exercises</Text>
+                            <Text style={styles.smallerText}>60 minutes</Text>
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image style={styles.photos} source={require('../components/assets/bodypage/chest.jpg')} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Abs')}>
+                    <View>
+                        <View style={styles.left}>
+                            <Text style={styles.workoutHeading}>Abs</Text>
+                            <Text style={styles.smallerText}>5 Exercises</Text>
+                            <Text style={styles.smallerText}>60 minutes</Text>
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image style={styles.photos} source={require('../components/assets/bodypage/abs.jpg')} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Legs')}>
+                    <View>
+                        <View style={styles.left}>
+                            <Text style={styles.workoutHeading}>Legs</Text>
+                            <Text style={styles.smallerText}>5 Exercises</Text>
+                            <Text style={styles.smallerText}>60 minutes</Text>
+                        </View>
+                        <View style={styles.imageContainer}>
+                            <Image style={styles.photos} source={require('../components/assets/bodypage/legs.jpg')} />
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                
+            </View>
+
+
         </View>
-
-        <View style={styles.tasksStage}>
-          <View style={styles.left}>
-            <Text style={styles.workoutHeading}>Arms</Text>
-            <Text style={styles.smallerText}>5 Exercises</Text>
-            <Text style={styles.smallerText}>60 minutes</Text>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image style={styles.photos} source={require('../components/assets/bodypage/arms.jpg')} />
-          </View>
-        </View>
-
-        <View style={styles.tasksStage}>
-          <View style={styles.left}>
-            <Text style={styles.workoutHeading}>Chest</Text>
-            <Text style={styles.smallerText}>5 Exercises</Text>
-            <Text style={styles.smallerText}>60 minutes</Text>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image style={styles.photos} source={require('../components/assets/bodypage/chest.jpg')} />
-          </View>
-        </View>
-
-        <View style={styles.tasksStage}>
-          <View style={styles.left}>
-            <Text style={styles.workoutHeading}>Abs</Text>
-            <Text style={styles.smallerText}>5 Exercises</Text>
-            <Text style={styles.smallerText}>60 minutes</Text>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image style={styles.photos} source={require('../components/assets/bodypage/abs.jpg')} />
-          </View>
-        </View>
-
-        <View style={styles.tasksStage}>
-          <View style={styles.left}>
-            <Text style={styles.workoutHeading}>Legs</Text>
-            <Text style={styles.smallerText}>5 Exercises</Text>
-            <Text style={styles.smallerText}>60 minutes</Text>
-          </View>
-          <View style={styles.imageContainer}>
-            <Image style={styles.photos} source={require('../components/assets/bodypage/legs.jpg')} />
-          </View>
-        </View>
-
-
-        
-        </View>
-  
-      </View>
     );
 }
+
+
 
 
 
@@ -75,6 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width:'100%',
     backgroundColor: '#6e9f7b',
+    height:'100%',
   },
 
   mainStage: {
