@@ -20,10 +20,10 @@ export default function BodyScreen({ navigation }){
                 </View>
 
                 <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Arms')}>
-                    <View>
+                  <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Arms</Text>
-                            <Text style={styles.smallerText}>5 Exercises</Text>
+                            <Text style={styles.smallerText}>3 Exercises</Text>
                             <Text style={styles.smallerText}>60 minutes</Text>
                         </View>
                         <View style={styles.imageContainer}>
@@ -33,7 +33,7 @@ export default function BodyScreen({ navigation }){
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Chest')}>
-                    <View>
+                   <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Chest</Text>
                             <Text style={styles.smallerText}>5 Exercises</Text>
@@ -46,7 +46,7 @@ export default function BodyScreen({ navigation }){
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Abs')}>
-                    <View>
+                    <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Abs</Text>
                             <Text style={styles.smallerText}>5 Exercises</Text>
@@ -59,7 +59,7 @@ export default function BodyScreen({ navigation }){
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Legs')}>
-                    <View>
+                  <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Legs</Text>
                             <Text style={styles.smallerText}>5 Exercises</Text>
@@ -180,6 +180,12 @@ smallerText:{
   color:'#A1A1A1',
   marginLeft: 17,
   marginBottom: 5,
+},
+
+
+
+allInfo: {
+  flexDirection: 'row'
 }
 
 });

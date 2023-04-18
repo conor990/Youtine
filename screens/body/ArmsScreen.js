@@ -1,12 +1,57 @@
-import { StyleSheet, View, Text, Image, Button} from 'react-native';
+import * as React from 'react';
+import { StyleSheet, View, Text, Image, Button, ScrollView} from 'react-native';
+import { WebView } from 'react-native-webview';
+import { Video, ResizeMode } from 'expo-av';
+
+
 
 export default function ArmsScreen({ navigation }){
+    const video = React.useRef(null);
+    const [status, setStatus] = React.useState({});
+
     return(
+        
         <View style={styles.container}>
           <Image style={styles.logo} source={require('../../components/assets/logoLong.png')} />
             <View style={styles.mainStage}>
+
+             <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollviewstyle} >
                 
-               <Text>arms</Text>
+            <View style={styles.headings}>
+                <Text>arms</Text>
+            </View>
+
+            <Image
+                source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/Arms1.gif' }}
+                style={styles.videos}
+                resizeMode="contain"
+             />
+
+            <View style={styles.headings}>
+                <Text>arms</Text>
+            </View>
+
+            <Image
+                source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/arms2.gif' }}
+                style={styles.videos}
+                resizeMode="contain"
+             />
+
+            <View style={styles.headings}>
+                <Text>arms</Text>
+            </View>
+
+            <Image
+                source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/arms3.gif' }}
+                style={styles.videos}
+                resizeMode="contain"
+             />
+
+
+
+                  
+  
+                </ScrollView>
             </View>
         </View>
     );
@@ -35,115 +80,25 @@ const styles = StyleSheet.create({
     marginTop:50
   },
 
-  pictureView: {
-    width:'90%',
-    height:190,
-    marginTop:'5%'
-  },
-
-  profilePicture: {
-    width: '50%',
+scrollView: {
     height: '95%',
-    borderRadius: 100,
-    alignSelf: 'center'
-  },
+    marginTop:1
+},
+scrollviewstyle: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+},
 
-
-
-  nameView: {
+videos: {
     width:'90%',
-    height:50,
-    marginTop:'5%'
-  },
+    height:200,
+},
 
-  nameText: {
-    fontFamily:'Inter',
-    color:'#383838',
-    fontSize:28,
-    alignSelf: 'center'
-  },
+headings: {
+    width:'100%'
+},
 
 
 
-  emailView: {
-    width:'90%',
-    height:25,
-    marginBottom:30
-  },
-
-  emailText: {
-    fontFamily:'Helvetica-light',
-    color:'#383838',
-    fontSize:15,
-    alignSelf: 'center'
-  },
-
-
-  infoView: {
-    backgroundColor:'#B2ECC1',
-    width:'77%',
-    height:60,
-    borderRadius:25,
-    marginTop: '4%',
-    alignItems: 'space-evenly',
-    flexDirection:'row'
-  },
-
-  innerTextView: {
-    height:'99%',
-    flexDirection:'column',
-    justifyContent:'center',
-  },
-
-  innerText:{
-    fontSize:18
-  },
-
-
-  emoji: {
-    fontSize: 30,
-  },
-  emojiView: {
-    width:'10%',
-    height:'99%',
-    flexDirection:'column',
-    justifyContent:'center',
-    marginLeft:10,
-    marginRight:13
-  },
-
-
-
-  numberView: {
-    height:'99%',
-    width:'20%',
-    flexDirection:'column',
-    justifyContent:'center',
-    marginLeft: '7%',
-  },
-  TNnumberView: {
-    height:'99%',
-    width:'20%',
-    flexDirection:'column',
-    justifyContent:'center',
-    marginLeft: '35%',
-  },
-  numberText: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color:'#383838',
-  },
-
-
-
-
-  buttonView: {
-    width:'77%',
-    height:60,
-    marginTop: 30,
-    fontSize:30
-  },
-  buttonText: {
-    fontSize:20
-  }
 });
