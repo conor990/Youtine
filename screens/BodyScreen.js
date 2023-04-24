@@ -24,7 +24,7 @@ export default function BodyScreen({ navigation }){
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Arms</Text>
                             <Text style={styles.smallerText}>3 Exercises</Text>
-                            <Text style={styles.smallerText}>60 minutes</Text>
+                            <Text style={styles.smallerText}>20 minutes</Text>
                         </View>
                         <View style={styles.imageContainer}>
                             <Image style={styles.photos} source={require('../components/assets/bodypage/arms.jpg')} />
@@ -36,8 +36,8 @@ export default function BodyScreen({ navigation }){
                    <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Chest</Text>
-                            <Text style={styles.smallerText}>5 Exercises</Text>
-                            <Text style={styles.smallerText}>60 minutes</Text>
+                            <Text style={styles.smallerText}>3 Exercises</Text>
+                            <Text style={styles.smallerText}>25 minutes</Text>
                         </View>
                         <View style={styles.imageContainer}>
                             <Image style={styles.photos} source={require('../components/assets/bodypage/chest.jpg')} />
@@ -49,8 +49,8 @@ export default function BodyScreen({ navigation }){
                     <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Abs</Text>
-                            <Text style={styles.smallerText}>5 Exercises</Text>
-                            <Text style={styles.smallerText}>60 minutes</Text>
+                            <Text style={styles.smallerText}>3 Exercises</Text>
+                            <Text style={styles.smallerText}>30 minutes</Text>
                         </View>
                         <View style={styles.imageContainer}>
                             <Image style={styles.photos} source={require('../components/assets/bodypage/abs.jpg')} />
@@ -62,8 +62,8 @@ export default function BodyScreen({ navigation }){
                   <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Legs</Text>
-                            <Text style={styles.smallerText}>5 Exercises</Text>
-                            <Text style={styles.smallerText}>60 minutes</Text>
+                            <Text style={styles.smallerText}>3 Exercises</Text>
+                            <Text style={styles.smallerText}>30 minutes</Text>
                         </View>
                         <View style={styles.imageContainer}>
                             <Image style={styles.photos} source={require('../components/assets/bodypage/legs.jpg')} />

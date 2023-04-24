@@ -33,7 +33,7 @@ export default function ChestScreen({ navigation }){
                 </View>
 
                 <Image
-                    source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/Arms1.gif' }}
+                    source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/chest1.gif' }}
                     style={styles.videos}
                     resizeMode="contain"
                 />
@@ -56,7 +56,7 @@ export default function ChestScreen({ navigation }){
                 </View>
 
                 <Image
-                    source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/arms2.gif' }}
+                    source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/chest2.gif' }}
                     style={styles.videos}
                     resizeMode="contain"
                 />
@@ -78,7 +78,7 @@ export default function ChestScreen({ navigation }){
 
 
                 <Image
-                    source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/arms3.gif' }}
+                    source={{ uri: 'https://youtinebodypagevideo.s3.eu-west-1.amazonaws.com/chest3.gif' }}
                     style={styles.videos}
                     resizeMode="contain"
                 />
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
 
 scrollView: {
     height: '95%',
-    marginTop:1
+    marginTop:7
 },
 scrollviewstyle: {
     flex: 1,
@@ -166,7 +166,7 @@ workoutHeading: {
 
 listItem: {
     fontSize: 16,
-    marginBottom: 8,
+    marginBottom: 20,
     marginLeft: 20,
     marginTop:10
   },

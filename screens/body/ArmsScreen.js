@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
 scrollView: {
     height: '95%',
-    marginTop:1
+    marginTop:7
 },
 scrollviewstyle: {
     flex: 1,
@@ -162,7 +162,7 @@ workoutHeading: {
 
 listItem: {
     fontSize: 16,
-    marginBottom: 8,
+    marginBottom: 20,
     marginLeft: 20,
     marginTop:10
   },

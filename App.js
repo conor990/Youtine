@@ -9,6 +9,7 @@ import ArmsScreen from "./screens/body/ArmsScreen";
 import LegsScreen from './screens/body/LegsScreen';
 import AbsScreen from './screens/body/AbsScreen';
 import ChestScreen from './screens/body/ChestScreen';
+import MealDetailsScreen from './screens/meals/MealDetailsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function App() {
         <Stack.Screen name="Chest" component={ChestScreen} />
         <Stack.Screen name="Abs" component={AbsScreen} />
         <Stack.Screen name="Legs" component={LegsScreen} />
+        <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
