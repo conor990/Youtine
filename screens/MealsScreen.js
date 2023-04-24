@@ -1,6 +1,6 @@
-import { StyleSheet, ScrollView, Text, View, SafeAreaView, Image, Button, TextInput, TouchableOpacity, ActivityIndicator} from 'react-native';
+import { StyleSheet, ScrollView, Text, View, SafeAreaView, Image, Button, TextInput, TouchableOpacity, ActivityIndicator, Keyboard} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, {useState, useEffect, keyboard} from 'react';
+import React, {useState, useEffect} from 'react';
 //import { ActivityIndicator } from 'react-native-web';
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -22,9 +22,10 @@ export default function MealsScreen({ navigation }){
       let respJson = await resp.json();
       setRecipes(respJson.hits);
       setLoading(false);
-      //keyboard.dismiss();
+      Keyboard.dismiss();
       setSearchQuery('');
     }
+    
 
     useEffect(() => {
       setLoading(true)
@@ -37,7 +38,7 @@ export default function MealsScreen({ navigation }){
   
         <View style={styles.mainStage}>
 
-          <View style={{width:'100%'}}>
+          <View style={{width:'95%'}}>
             <Text style={styles.PageHeading}>Find a meal that looks good ! </Text>
           </View>
 
@@ -50,7 +51,7 @@ export default function MealsScreen({ navigation }){
              onChangeText={text => setSearchQuery(text)}
             />
 
-            <TextInput style={[styles.inputField, {width:'20%', fontSize:18, marginLeft:15, color:'#6e9f7b', fontWeight: 'bold'}]}
+            <TextInput style={[styles.inputField, {width:'19%', fontSize:18, marginLeft:15, color:'#6e9f7b', fontWeight: 'bold'}]}
              keyboardType='number-pad'
              onChangeText={text => setNumberOfRecipes(text)}
              value={numberOfRecipes}
@@ -60,13 +61,15 @@ export default function MealsScreen({ navigation }){
 
 
 
-          
+          <View style={styles.buttonView}>
             <TouchableOpacity style={styles.button} title='submit' onPress={apiCall}>             
               <Text style={styles.buttonText}> Search </Text>
             </TouchableOpacity>
-          
+          </View>
 
-          <SafeAreaView style={{flex:1, width:'100%'}}> 
+
+
+          <SafeAreaView style={styles.SAview}> 
               {loading ? <ActivityIndicator size='large' color='#6e9f7b'/>  : 
               <FlatList 
               style={styles.recipes}
@@ -76,9 +79,9 @@ export default function MealsScreen({ navigation }){
                   <Image style={styles.image}
                   source={{uri: `${item.recipe.image}`}}
                   />
-                  <View style={{padding:20, flexDirection:'row'}}>
+                  <View style={{padding:20, flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
                     <Text style={styles.label}> {item.recipe.label}</Text>
-                    <TouchableOpacity onPress={() => {}}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('MealDetails', {recipe: item.recipe})}}>
                         <Text style={{marginLeft:50, fontSize:20, color:'#689f7b'}}>
                             Details
                         </Text>
@@ -86,8 +89,7 @@ export default function MealsScreen({ navigation }){
                   </View>
                 </View>
               )}
-              keyExtractor={(item, index) => index.toString()} 
-              />}
+              keyExtractor={(item, index) => index.toString()} />}
           </SafeAreaView>
 
 
@@ -114,11 +116,10 @@ const styles = StyleSheet.create({
   mainStage: {
     backgroundColor: '#cfd1d0',
     flex:1,
-    flexDirection: 'row',
     height: '100%',
     borderRadius:40,
-    justifyContent:'centre',
-    flexWrap: 'wrap',
+    justifyContent:'center',
+    alignItems:'center',
   },
 
 
@@ -137,13 +138,13 @@ const styles = StyleSheet.create({
     textAlign:'left',
     margin:25,
     marginTop:30,
-    marginBottom:0,
+    marginBottom:10,
   },
 
 
   inputField: {
     height : 42,
-    width: '65%',
+    width: '64%',
     backgroundColor: 'white',
     borderRadius: 20,
     marginTop: 10,
@@ -162,13 +163,14 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent:'center',
     alignItems: 'center',
+    marginBottom: 25
   },
   buttons: {
     flexDirection: 'row',
   },
   button : {
     backgroundColor: '#6e9f7b',
-    width: '20%',
+    width: '88%',
     alignItems: 'center',
     height: 40, 
     borderRadius: 20,
@@ -182,24 +184,49 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 
+  SAview : {
+    flex:1,
+    width:'100%',
+    justifyContent:'center',
+    alignItems: 'center',
+
+  },
+
   recipes: {
     width: '100%',
-    backgroundColor: 'red',
-    
   },
-  recipe: {
-    width: '100%'
-  },
+
   loadingIcon: {
     width: '100%'
   },
+
+
   image: {
     width: '100%',
-    heigth: 200, 
-    borderRadius: 20
+    height: 200,
+    borderRadius: 20,
+  },
+
+  label: {
+    //margin
+    fontSize: 18,
+    width: '60%',
+    color: '#6e9f7b',
+    fontWeight: '700'
+  },
+
+  recipe: {
+    shadowColor: 'black',
+    width: '88%',
+    marginLeft:25,
+    shadowOpacity: 0.26,
+    shadowOffset: { width: 0, height: 2},
+    shadowRadius: 8,
+    elevation: 5,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    margin: 10,
+    marginBottom: 40,
   }
-
-
-
 
 });

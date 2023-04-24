@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, Image, Button } from 'react-native';
 import React from 'react';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function MealDetailsScreen({ navigation }){
     return(
@@ -8,8 +9,16 @@ export default function MealDetailsScreen({ navigation }){
   
         <View style={styles.mainStage}>
   
-            <Text> Hello Meals Details Screen</Text>
+            <ScrollView>
+                <View style={styles.details}>
+                    <View style={styles.item}>
+                        <Text style={styles.Ingredients}>
+                            Ingredients:
+                        </Text>
+                    </View>
 
+                </View>
+            </ScrollView>
         
         </View>
   
@@ -48,5 +57,9 @@ const styles = StyleSheet.create({
     marginTop:50
   },
 
-
+  Ingredients: {
+    fontSize: 22,
+    color: '#6e9f7b',
+    fontWeight: '800'
+  }
 });
