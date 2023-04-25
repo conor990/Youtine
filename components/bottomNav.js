@@ -5,7 +5,7 @@ import MindScreen from '../screens/MindScreen';
 import BodyScreen from '../screens/BodyScreen';
 import MealsScreen from '../screens/MealsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-
+//this is the guinee pig nav page 
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +34,31 @@ const BottomNav = ({ navigation }) => {
       }}
     >
       <Tab.Screen name="Home" component={HomeScreen} options={{
+        tabBarIcon: ({ focused }) => (
+          <View>
+            <Image
+              source={require('../components/assets/bottomNavBar/homeBlack.png')}
+              resizeMode='contain'
+              style={{
+                width: 30,
+                height: 30,
+                shadowColor: focused ? 'green' : 'grey',
+
+                shadowOffset: {
+                  width: 1,
+                  height: 1
+                },
+                shadowOpacity: 1,
+              }}
+
+
+            />
+          </View>
+        ),
+      }} />
+
+
+<Tab.Screen name="Arms" component={ArmsScreen} options={{
         tabBarIcon: ({ focused }) => (
           <View>
             <Image

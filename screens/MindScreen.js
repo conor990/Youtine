@@ -1,4 +1,3 @@
-import BottomNavComponent from '../components/BottomNav';
 import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity } from 'react-native';
 
 export default function MindScreen({ navigation }){
