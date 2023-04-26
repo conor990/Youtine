@@ -10,6 +10,8 @@ import LegsScreen from './screens/body/LegsScreen';
 import AbsScreen from './screens/body/AbsScreen';
 import ChestScreen from './screens/body/ChestScreen';
 import MealDetailsScreen from './screens/meals/MealDetailsScreen';
+import LoginScreen from "./screens/LoginScreen";
+import SignupScreen from "./screens/SignupScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -30,6 +32,8 @@ export default function App() {
         <Stack.Screen name="Abs" component={AbsScreen} />
         <Stack.Screen name="Legs" component={LegsScreen} />
         <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={SignupScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
