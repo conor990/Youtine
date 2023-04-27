@@ -1,7 +1,7 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import React, { useState } from 'react'
 
-//import { auth } from './firebase'
+import { auth } from '../firebase'
 
 const LoginScreen = ({navigation}) => {
 
@@ -14,10 +14,23 @@ const [password, setPassword] = useState('')
         .createUserWithEmailAndPassword(email, password)
         .then(userCredentials => {
             const user = userCredentials.user;
-            console.log(user.email);
+            console.log('Registered with :',user.email);
         })
         .catch(error => alert(error.message))
     }
+
+
+    const handleLogin = () => {
+        auth
+        .signInWithEmailAndPassword(email, password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log('Logged in with', user.email);
+        })
+        .catch(error => alert(error.message))
+    }
+
+    
  
   return (
     <KeyboardAvoidingView
@@ -54,10 +67,10 @@ const [password, setPassword] = useState('')
         </TouchableOpacity>
 
         <TouchableOpacity
-            //onPress={() => navigation.navigate('Register')}
-            style={styles.registerButton}
+            onPress={handleSignUp}
+            style={[styles.button, styles.Rbutton]}
         >
-            <Text style={styles.registerText}>Not a member? register now</Text>
+            <Text style={styles.registerText}>Register</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -120,9 +133,13 @@ const styles = StyleSheet.create({
         borderRadius:15,
         alignItems:'center',
 
-        marginTop:5,
+        marginTop:15,
         borderColor:'#fff',
         borderWidth: 2
+    },
+    Rbutton: {
+        backgroundColor: '#fecea8',
+        borderColor:'#636363',
     },
 
     buttonOutline:{
@@ -135,7 +152,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color:'white',
         fontWeight: '700',
-        fontSize: 16,
+        fontSize: 19,
     },
 
     buttonOutlineText:{
@@ -150,8 +167,9 @@ const styles = StyleSheet.create({
         color:'#d1e3d6',
     },
     registerText: {
-        color:'#d1e3d6',
-        fontSize: 17,
+        color:'#636363',
+        fontSize: 19,
+        fontWeight: '700',
     },
     
 
