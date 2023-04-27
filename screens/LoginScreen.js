@@ -54,7 +54,7 @@ const [password, setPassword] = useState('')
         </TouchableOpacity>
 
         <TouchableOpacity
-            onPress={() => navigation.navigate('Register')}
+            //onPress={() => navigation.navigate('Register')}
             style={styles.registerButton}
         >
             <Text style={styles.registerText}>Not a member? register now</Text>

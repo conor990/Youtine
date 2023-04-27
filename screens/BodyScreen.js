@@ -19,7 +19,7 @@ export default function BodyScreen({ navigation }){
                     <Text style={styles.PageHeading}>What would you like to workout ?...</Text>
                 </View>
 
-                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Arms')}>
                   <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Arms</Text>
