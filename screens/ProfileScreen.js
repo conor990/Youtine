@@ -1,11 +1,30 @@
 import { StyleSheet, View, Text, Image, Button} from 'react-native';
+import { auth } from '../firebase'
+
+
 
 export default function ProfileScreen({ navigation }){
+
+  const handleSignOut = () => {
+    auth.signOut().then(() =>{
+      navigation.replace("Login")
+    })
+    .catch(error => alert(error.message))
+  } 
+
     return(
         <View style={styles.container}>
           <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
             <View style={styles.mainStage}>
                 
+                <View style={styles.buttonView}>
+                  <Button
+                    title="Sign Out"
+                    onPress={handleSignOut}
+                    style={{fontSize: 40}}
+                  />
+                </View>
+
                 <View style={styles.pictureView}>
                   <Image style={styles.profilePicture} source={require('../components/assets/profilepage/profilePic.jpg')} />
                 </View>
@@ -13,7 +32,7 @@ export default function ProfileScreen({ navigation }){
                   <Text style={styles.nameText}>Name Surname</Text>
                 </View>
                 <View style={styles.emailView}>
-                  <Text style={styles.emailText}>username@email.com</Text>
+                  <Text style={styles.emailText}>{auth.currentUser?.email}</Text>
                 </View>
 
 
@@ -79,7 +98,7 @@ const styles = StyleSheet.create({
   pictureView: {
     width:'90%',
     height:190,
-    marginTop:'5%'
+   // marginTop:'5%'
   },
 
   profilePicture: {
@@ -87,6 +106,8 @@ const styles = StyleSheet.create({
     height: '95%',
     borderRadius: 100,
     alignSelf: 'center'
+
+    
   },
 
 
@@ -109,7 +130,7 @@ const styles = StyleSheet.create({
   emailView: {
     width:'90%',
     height:25,
-    marginBottom:30
+    marginBottom:15
   },
 
   emailText: {
@@ -127,7 +148,18 @@ const styles = StyleSheet.create({
     borderRadius:25,
     marginTop: '4%',
     alignItems: 'space-evenly',
-    flexDirection:'row'
+    flexDirection:'row',
+
+    shadowColor:'#000',
+
+    shadowOffset: {
+      width:0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, //elevation is for android & shadow props are for ios 
+
   },
 
   innerTextView: {
@@ -179,8 +211,8 @@ const styles = StyleSheet.create({
 
 
   buttonView: {
-    width:'77%',
-    height:60,
+    width:'100%',
+    height:50,
     marginTop: 30,
     fontSize:30
   },

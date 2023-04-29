@@ -1,5 +1,5 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, {useState, useEffect} from 'react';
 
 import { auth } from '../firebase'
 
@@ -7,7 +7,15 @@ const LoginScreen = ({navigation}) => {
 
 
  const [email, setEmail] = useState('')
-const [password, setPassword] = useState('')
+ const [password, setPassword] = useState('')
+
+ useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+        if(user){
+            navigation.replace("TabNavigator")
+        }
+    })
+ }, [])
 
     const handleSignUp = () => {
         auth
@@ -60,7 +68,7 @@ const [password, setPassword] = useState('')
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-            onPress={() => { }}
+            onPress={handleLogin}
             style={styles.button}
         >
             <Text style={styles.buttonText}>Login</Text>
