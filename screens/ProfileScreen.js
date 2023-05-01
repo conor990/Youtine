@@ -29,10 +29,7 @@ export default function ProfileScreen({ navigation }){
                   <Image style={styles.profilePicture} source={require('../components/assets/profilepage/profilePic.jpg')} />
                 </View>
                 <View style={styles.nameView}>
-                  <Text style={styles.nameText}>Name Surname</Text>
-                </View>
-                <View style={styles.emailView}>
-                  <Text style={styles.emailText}>{auth.currentUser?.email}</Text>
+                  <Text style={styles.nameText}>{auth.currentUser?.email}</Text>
                 </View>
 
 
@@ -119,9 +116,8 @@ const styles = StyleSheet.create({
   },
 
   nameText: {
-    fontFamily:'Inter',
     color:'#383838',
-    fontSize:28,
+    fontSize:25,
     alignSelf: 'center'
   },
 

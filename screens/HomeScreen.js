@@ -6,9 +6,21 @@ import TasksComponent from '../components/tasks';
 import MindScreen from "./MindScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { auth, firestore } from '../firebase';
 
 
 export default function HomeScreen({ navigation }) { 
+  
+  const [currentUser, setCurrentUser] = React.useState(null);
+  React.useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+        if(user){
+            setCurrentUser(user);
+        }
+    })
+    return unsubscribe;
+  }, []);
+
   return (
 
       <View style={styles.container}>
@@ -16,7 +28,7 @@ export default function HomeScreen({ navigation }) {
 
         <View style={styles.mainStage}>
 
-        <TopInfoComponent/>
+        <TopInfoComponent currentUser={currentUser} />
 
         <InspoComponent/>
 
