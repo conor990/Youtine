@@ -5,6 +5,7 @@ const API_URL = 'https://zenquotes.io/api/today';
 
 const InspoComponent = () => {
   const [quote, setQuote] = useState(null);
+  const [previousQuotes, setPreviousQuotes] = useState([]);
 
   useEffect(() => {
     const fetchQuote = async () => {
@@ -12,6 +13,7 @@ const InspoComponent = () => {
         const response = await fetch(API_URL);
         const data = await response.json();
         const quoteText = data[0].q;
+        setPreviousQuotes([...previousQuotes, quoteText]);
         setQuote(quoteText);
       } catch (error) {
         console.error(error);

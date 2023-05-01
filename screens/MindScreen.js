@@ -1,6 +1,18 @@
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity } from 'react-native';
+import InspoComponent from '../components/inspo';
+
 
 export default function MindScreen({ navigation }){
+  const [previousQuotes, setPreviousQuotes] = useState([]);
+
+  useEffect(() => {
+    const addNewQuote = (quote) => {
+      setPreviousQuotes([...previousQuotes, quote]);
+    };
+    addNewQuote();
+  }, []);
+
     return(
         <View style={styles.container}>
         <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
@@ -16,19 +28,14 @@ export default function MindScreen({ navigation }){
 
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollViewInspo}>
-            <View style={styles.inspo}>
-                <Text style={styles.InspoText}>“Just one small positive thought in the morning can change your whole day”</Text>
-            </View> 
+          <InspoComponent onNewQuote={(quote) => addNewQuote(quote)} />
+          {previousQuotes.map((q, index) => (
+              <View key={index} style={styles.inspo}>
+                <Text style={styles.InspoText}>“{q}”</Text>
+              </View> 
+            ))}
 
-            <View style={styles.inspo}>
-                <Text style={styles.InspoText}>“Success is not final; failure is not fatal: It is the courage to continue that counts.”</Text>
-            </View> 
-
-            <View style={styles.inspo}>
-                <Text style={styles.InspoText}>“Don’t let yesterday take up too much of today”</Text>
-            </View> 
-
-      </ScrollView>
+       </ScrollView>
 
 
       <View style={{width:'100%'}}>
