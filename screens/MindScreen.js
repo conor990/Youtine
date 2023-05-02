@@ -1,17 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity, FlatList,TextInput } from 'react-native';
 import InspoComponent from '../components/inspo';
-
+import { auth } from '../firebase'
+import { firestore } from '../firebase'
 
 export default function MindScreen({ navigation }){
   const [previousQuotes, setPreviousQuotes] = useState([]);
+  const [notes, setNotes] = useState([]);
+
 
   useEffect(() => {
-    const addNewQuote = (quote) => {
-      setPreviousQuotes([...previousQuotes, quote]);
+    const fetchNotesData = async () => {
+      const user = auth.currentUser;
+      const notesData = await fetchNotes(user.uid);
+      setNotes(notesData);
     };
-    addNewQuote();
+  
+    fetchNotesData();
   }, []);
+  
+
+
+  const fetchNotes = async (userId) => {
+    const notes = [];
+    const snapshot = await firestore.collection('notes').where('usersId', '==', userId).get();
+  
+    snapshot.forEach((doc) => {
+      notes.push({ id: doc.id, ...doc.data() });
+    });
+  
+    return notes;
+  };
+  
+
+
+  
+  
 
     return(
         <View style={styles.container}>
@@ -44,52 +68,35 @@ export default function MindScreen({ navigation }){
 
 
   
-        <ScrollView style={styles.scrollViewNotes}>
-          
-        <View style={{
-        width:'100%',
-        justifyContent:'space-evenly',
-        flexDirection:'row',
-        flexWrap: 'wrap'
-    }}>
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
+        <FlatList
+          style={styles.scrollViewNotes}
+          data={notes}
+          renderItem={({ item }) => (
+            <View style={styles.note}>
+              <Text style={{ fontFamily: "AppleSDGothicNeo-SemiBold", fontSize: 16 }}>
+                {item.title}
+              </Text>
+              <Text style={{ fontFamily: "AppleSDGothicNeo-Thin", fontSize: 15 }}>
+                {item.text}
+              </Text>
+            </View>
+          )}
+          keyExtractor={(item) => item.id}
+        />
 
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
-
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
-    
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
-
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
-        
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
-
-      </View>
-
-      </ScrollView>
 
       <View style={{width:'100%', alignItems:'center',}}>
-        <TouchableOpacity style={styles.addButton}> 
-          <Text style={{fontSize:35}}>➕</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() =>
+          navigation.navigate("AddNotes", { userId: auth.currentUser?.uid })
+        }
+      >
+        <Text style={{ fontSize: 35 }}>➕</Text>
+    </TouchableOpacity>
+
+
+
       </View> 
         
         </View>

@@ -9,21 +9,19 @@
     "splash": {
       "image": "./components/assets/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#479657"
+      "backgroundColor": "#6e9f7b"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./components/assets/logo.png",
-        "backgroundColor": "#479657"
+        "backgroundColor": "#6e9f7b"
       }
     },
     "web": {

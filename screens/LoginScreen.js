@@ -2,6 +2,7 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import React, {useState, useEffect} from 'react';
 import { firestore } from '../firebase'
 import { auth } from '../firebase'
+import {AsyncStorage} from '@react-native-async-storage/async-storage'
 
 const LoginScreen = ({navigation}) => {
 
