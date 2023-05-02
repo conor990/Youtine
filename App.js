@@ -14,6 +14,7 @@ import LoginScreen from "./screens/LoginScreen";
 import SignupScreen from "./screens/SignupScreen";
 import AddNotes from './screens/mind/AddNotes';
 
+
 const Stack = createNativeStackNavigator();
 
 function TabNavigator() {
@@ -36,6 +37,7 @@ export default function App() {
         <Stack.Screen name="MealDetails" component={MealDetailsScreen} />
         <Stack.Screen name="Register" component={SignupScreen} />
         <Stack.Screen name="AddNotes" component={AddNotes} />
+        <Stack.Screen name="Mind" component={MindScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

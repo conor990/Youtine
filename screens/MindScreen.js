@@ -68,21 +68,29 @@ export default function MindScreen({ navigation }){
 
 
   
-        <FlatList
-          style={styles.scrollViewNotes}
-          data={notes}
-          renderItem={({ item }) => (
-            <View style={styles.note}>
-              <Text style={{ fontFamily: "AppleSDGothicNeo-SemiBold", fontSize: 16 }}>
+        <ScrollView style={styles.ScrollView}>
+
+        <View style={{
+        width:'100%',
+        justifyContent:'space-evenly',
+        flexDirection:'row',
+        flexWrap: 'wrap'
+        }}>
+
+          {notes.map((item) => (
+            <View key={item.id} style={styles.note}>
+              <Text style={{ fontFamily: "AppleSDGothicNeo-SemiBold", fontSize: 20 }}>
                 {item.title}
               </Text>
-              <Text style={{ fontFamily: "AppleSDGothicNeo-Thin", fontSize: 15 }}>
+              <Text style={{ fontFamily: "AppleSDGothicNeo-Thin", fontSize: 17 }}>
                 {item.text}
               </Text>
             </View>
-          )}
-          keyExtractor={(item) => item.id}
-        />
+          ))}
+
+          </View>
+        </ScrollView>
+
 
 
       <View style={{width:'100%', alignItems:'center',}}>
@@ -137,7 +145,7 @@ const styles = StyleSheet.create({
   },
 
 
-  scrollViewNotes: {
+  ScrollView: {
     marginHorizontal: 1,
     height:'50%',
   },
@@ -215,6 +223,7 @@ note: {
   elevation: 5, //elevation is for android & shadow props are for ios 
 
 },
+
 
 
 addButton:{

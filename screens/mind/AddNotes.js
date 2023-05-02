@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity, FlatList,TextInput } from 'react-native';
 import { auth } from '../../firebase'
 import { firestore } from '../../firebase'
+import MindScreen from '../MindScreen';
 
-export default function AddNotes({ userId }){
+export default function AddNotes({ navigation }){
     const usersId = auth.currentUser?.uid;
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
@@ -53,6 +54,8 @@ export default function AddNotes({ userId }){
                     onChangeText={(text) => setText(text)}
                 />
                 <Button title="Add Note" onPress={handleAddNote} />
+
+                <Button title="Back" onPress={() => navigation.navigate("TabNavigator")} />
                 
                 
 
