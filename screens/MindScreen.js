@@ -1,6 +1,42 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity, FlatList,TextInput } from 'react-native';
+import InspoComponent from '../components/inspo';
+import { auth } from '../firebase'
+import { firestore } from '../firebase'
 
 export default function MindScreen({ navigation }){
+  const [previousQuotes, setPreviousQuotes] = useState([]);
+  const [notes, setNotes] = useState([]);
+
+
+  useEffect(() => {
+    const fetchNotesData = async () => {
+      const user = auth.currentUser;
+      const notesData = await fetchNotes(user.uid);
+      setNotes(notesData);
+    };
+  
+    fetchNotesData();
+  }, []);
+  
+
+
+  const fetchNotes = async (userId) => {
+    const notes = [];
+    const snapshot = await firestore.collection('notes').where('usersId', '==', userId).get();
+  
+    snapshot.forEach((doc) => {
+      notes.push({ id: doc.id, ...doc.data() });
+    });
+  
+    return notes;
+  };
+  
+
+
+  
+  
+
     return(
         <View style={styles.container}>
         <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
@@ -16,19 +52,14 @@ export default function MindScreen({ navigation }){
 
 
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollViewInspo}>
-            <View style={styles.inspo}>
-                <Text style={styles.InspoText}>“Just one small positive thought in the morning can change your whole day”</Text>
-            </View> 
+          <InspoComponent onNewQuote={(quote) => addNewQuote(quote)} />
+          {previousQuotes.map((q, index) => (
+              <View key={index} style={styles.inspo}>
+                <Text style={styles.InspoText}>“{q}”</Text>
+              </View> 
+            ))}
 
-            <View style={styles.inspo}>
-                <Text style={styles.InspoText}>“Success is not final; failure is not fatal: It is the courage to continue that counts.”</Text>
-            </View> 
-
-            <View style={styles.inspo}>
-                <Text style={styles.InspoText}>“Don’t let yesterday take up too much of today”</Text>
-            </View> 
-
-      </ScrollView>
+       </ScrollView>
 
 
       <View style={{width:'100%'}}>
@@ -37,52 +68,43 @@ export default function MindScreen({ navigation }){
 
 
   
-        <ScrollView style={styles.scrollViewNotes}>
-          
+        <ScrollView style={styles.ScrollView}>
+
         <View style={{
         width:'100%',
         justifyContent:'space-evenly',
         flexDirection:'row',
         flexWrap: 'wrap'
-    }}>
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
+        }}>
 
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
+          {notes.map((item) => (
+            <View key={item.id} style={styles.note}>
+              <Text style={{ fontFamily: "AppleSDGothicNeo-SemiBold", fontSize: 20 }}>
+                {item.title}
+              </Text>
+              <Text style={{ fontFamily: "AppleSDGothicNeo-Thin", fontSize: 17 }}>
+                {item.text}
+              </Text>
+            </View>
+          ))}
 
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
-    
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
+          </View>
+        </ScrollView>
 
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
-        
-        <View style={styles.note}>
-          <Text style={{fontFamily:'AppleSDGothicNeo-SemiBold', fontSize:16}}>Example Heading</Text> 
-          <Text style={{fontFamily:'AppleSDGothicNeo-Thin', fontSize:15}}>•Lorem ipsum dolor sit amet, consectetur adipiscing elit.{"\n"}{"\n"} •Lorem ipsum dolor sit amet, consectetur adipiscing elit.</Text> 
-        </View>
 
-      </View>
-
-      </ScrollView>
 
       <View style={{width:'100%', alignItems:'center',}}>
-        <TouchableOpacity style={styles.addButton}> 
-          <Text style={{fontSize:35}}>➕</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() =>
+          navigation.navigate("AddNotes", { userId: auth.currentUser?.uid })
+        }
+      >
+        <Text style={{ fontSize: 35 }}>➕</Text>
+    </TouchableOpacity>
+
+
+
       </View> 
         
         </View>
@@ -123,7 +145,7 @@ const styles = StyleSheet.create({
   },
 
 
-  scrollViewNotes: {
+  ScrollView: {
     marginHorizontal: 1,
     height:'50%',
   },
@@ -184,7 +206,7 @@ MotivationHeading: {
 
 note: {
   backgroundColor:'#a6e0b6',
-  height:170,
+ // height:170,
   width:170,
   borderRadius:'10px',
   marginTop:20,
@@ -201,6 +223,7 @@ note: {
   elevation: 5, //elevation is for android & shadow props are for ios 
 
 },
+
 
 
 addButton:{

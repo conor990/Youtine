@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, Image, Button} from 'react-native';
 import { auth } from '../firebase'
-
+import React, { useState, useEffect } from 'react';
+import { firestore } from '../firebase';
 
 
 export default function ProfileScreen({ navigation }){
@@ -11,6 +12,19 @@ export default function ProfileScreen({ navigation }){
     })
     .catch(error => alert(error.message))
   } 
+
+
+  const [noteCount, setNoteCount] = useState(0);
+
+  useEffect(() => {
+    const fetchNoteCount = async () => {
+      const userId = auth.currentUser.uid;
+      const snapshot = await firestore.collection('notes').where('usersId', '==', userId).get();
+      setNoteCount(snapshot.size);
+    };
+
+    fetchNoteCount();
+  }, []);
 
     return(
         <View style={styles.container}>
@@ -29,10 +43,7 @@ export default function ProfileScreen({ navigation }){
                   <Image style={styles.profilePicture} source={require('../components/assets/profilepage/profilePic.jpg')} />
                 </View>
                 <View style={styles.nameView}>
-                  <Text style={styles.nameText}>Name Surname</Text>
-                </View>
-                <View style={styles.emailView}>
-                  <Text style={styles.emailText}>{auth.currentUser?.email}</Text>
+                  <Text style={styles.nameText}>{auth.currentUser?.email}</Text>
                 </View>
 
 
@@ -57,7 +68,7 @@ export default function ProfileScreen({ navigation }){
                 <View style={styles.infoView}>
                   <View style={styles.emojiView}><Text style={styles.emoji}>🔥</Text></View>
                   <View style={styles.innerTextView}><Text style={styles.innerText}>Total notes</Text></View>
-                  <View style={styles.TNnumberView}><Text style={styles.numberText}>00</Text></View>
+                  <View style={styles.TNnumberView}><Text style={styles.numberText}>{noteCount}</Text></View>
                 </View>
 
                 <View style={styles.buttonView}>
@@ -119,9 +130,8 @@ const styles = StyleSheet.create({
   },
 
   nameText: {
-    fontFamily:'Inter',
     color:'#383838',
-    fontSize:28,
+    fontSize:25,
     alignSelf: 'center'
   },
 

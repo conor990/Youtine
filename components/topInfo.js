@@ -1,13 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import {AsyncStorage} from '@react-native-async-storage/async-storage';
+import { firestore } from '../firebase';
+
+
+
+
 
 const API_KEY = '7ef91b6317c83faac722553f9853df51';
 let city = 'Dublin,ie'
 const API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${API_KEY}`;
 
 
-const TopInfoComponent = () => {
+const TopInfoComponent = ({ currentUser }) => {
   const [temperature, setTemperature] = useState(null);
+
+  // existing state
+  const [streak, setStreak] = useState(0);
+  
+  // new state
+  const [dayStreak, setDayStreak] = useState(null);
+  
+  useEffect(() => {
+    if (currentUser) {
+      // Subscribe to changes in the user's document
+      const userDocRef = firestore.collection('users').doc(currentUser.uid);
+      userDocRef.onSnapshot(userDoc => {
+        if (userDoc.exists) {
+          // Update the "Streak" count in the state
+          const currentStreak = userDoc.data().streak;
+          setStreak(currentStreak);
+  
+          // Update the "Day Streak" count in the state
+          const currentDayStreak = userDoc.data().dayStreak;
+          setDayStreak(currentDayStreak);
+        } else {
+          console.error('User document not found in Firestore');
+        }
+      });
+    }
+  }, [currentUser]);
+  
+  
 
   useEffect(() => {
     const fetchTemperature = async () => {
@@ -23,13 +57,30 @@ const TopInfoComponent = () => {
     fetchTemperature();
   }, []);
 
+
+  useEffect(() => {
+    async function getStreak() {
+      try {
+        const value = await AsyncStorage.getItem('streak');
+        if (value !== null) {
+          setStreak(parseInt(value));
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
+    getStreak();
+  }, []);
+  
+
   return (
     <View style={styles.container}>
       <View style={styles.topInfo}>
         <Text style={styles.leftText}>🌡️ {temperature ? `${Math.round(temperature)}°` : '--'}</Text>
       </View>
       <View style={styles.topInfo}>
-        <Text style={styles.StreakNumber}>🔥 18</Text>
+      <Text style={styles.StreakNumber}>🔥 {streak}</Text>
         <Text style={styles.StreakText}>Day {"\n"}Streak</Text>
       </View>
     </View>

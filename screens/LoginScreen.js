@@ -1,7 +1,8 @@
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import React, {useState, useEffect} from 'react';
-
+import { firestore } from '../firebase'
 import { auth } from '../firebase'
+import {AsyncStorage} from '@react-native-async-storage/async-storage'
 
 const LoginScreen = ({navigation}) => {
 
@@ -17,26 +18,49 @@ const LoginScreen = ({navigation}) => {
     })
  }, [])
 
-    const handleSignUp = () => {
-        auth
-        .createUserWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log('Registered with :',user.email);
-        })
-        .catch(error => alert(error.message))
-    }
+ const handleSignUp = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user;
+        console.log('Registered with:', user.email);
+
+        // Create a new user document in Firestore
+        createUserDocument(user.uid, { email });
+      })
+      .catch(error => alert(error.message))
+  }
+
+    // Function to create a new user document in Firestore
+    const createUserDocument = (userId, data) => {
+        firestore
+          .collection("users")
+          .doc(userId)
+          .set(data)
+          .then(() => {
+            console.log("User document created in Firestore!");
+          })
+          .catch(error => {
+            console.error("Error creating user document: ", error);
+          });
+      }
 
 
     const handleLogin = () => {
         auth
         .signInWithEmailAndPassword(email, password)
         .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log('Logged in with', user.email);
+          const user = userCredentials.user;
+          console.log('Logged in with', user.email);
+      
+          // Increment streak and save to AsyncStorage
+          const newStreak = streak + 1;
+          AsyncStorage.setItem('streak', newStreak.toString());
+          setStreak(newStreak);
         })
         .catch(error => alert(error.message))
-    }
+      }
+      
 
     
  
