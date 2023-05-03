@@ -206,7 +206,7 @@ MotivationHeading: {
 
 note: {
   backgroundColor:'#a6e0b6',
-  height:170,
+ // height:170,
   width:170,
   borderRadius:'10px',
   marginTop:20,

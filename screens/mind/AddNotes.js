@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, Toucha
 import { auth } from '../../firebase'
 import { firestore } from '../../firebase'
 import MindScreen from '../MindScreen';
+import { color } from 'react-native-reanimated';
 
 export default function AddNotes({ navigation }){
     const usersId = auth.currentUser?.uid;
@@ -41,24 +42,50 @@ export default function AddNotes({ navigation }){
   
             <View style={styles.mainStage}>
 
+              <View style={{width:'100%'}}>
+                  <Text style={styles.MotivationHeading}>Title</Text>
+              </View> 
+
                 <TextInput
-                    style={styles.input}
+                    style={styles.inputTitle}
                     placeholder="Note Title"
                     value={title}
                     onChangeText={(text) => setTitle(text)}
                 />
+
+                  <View style={{width:'100%'}}>
+                      <Text style={styles.MotivationHeading}>Note text</Text>
+                  </View> 
+
                 <TextInput
                     style={styles.input}
+                    multiline= {true}
                     placeholder="Note Text"
                     value={text}
                     onChangeText={(text) => setText(text)}
                 />
-                <Button title="Add Note" onPress={handleAddNote} />
 
-                <Button title="Back" onPress={() => navigation.navigate("TabNavigator")} />
+                <View style = {styles.buttonsView}>
+                    <TouchableOpacity
+                    onPress={handleAddNote}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>
+                      Add Note
+                    </Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={() => navigation.navigate("TabNavigator")}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>
+                      Back
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 
                 
-
             </View>
   
       </View>
@@ -73,43 +100,90 @@ export default function AddNotes({ navigation }){
 
 const styles = StyleSheet.create({
 
-    container:{
-        flex:1,
+  container: {
+    flex: 1,
+    width:'100%',
+    backgroundColor: '#6e9f7b',
+  },
 
-        alignItems:'center',
-        backgroundColor: '#6e9f7b',
-    },
-
-    inputContainer: {
-        width: '90%'
-    },
+  mainStage: {
+    backgroundColor: '#cfd1d0',
+    flex:1,
+    flexDirection: 'column',
+    height: '100%',
+    borderRadius:'40px',
+    justifyContent:'space-evenly',
+    flexWrap: 'wrap',
+    padding: 30
+  },
 
 
     logo: {
-        width:'90%',
-        height:120,
-        marginTop: 100,
-        marginBottom: 100,
-
-        shadowColor:'black',
-
-        shadowOffset: {
-          width:0,
-          height: 3
-        },
-        shadowOpacity: 0.45,
-        shadowRadius: 3.84,
-        elevation: 5, //elevation is for android & shadow props are for ios 
-    
+      width:155,
+      height:30,
+      margin:20,
+      marginTop:50
     },
 
 
       input: {
-        borderWidth: 1,
-        borderColor: '#ccc',
+        borderWidth: 8,
+        borderColor: '#B6B6B6',
         borderRadius: 4,
         padding: 8,
         marginBottom: 10,
+        width: '100%',
+        height:'20%',
+        backgroundColor: '#FBFBFB'
       },
+
+      inputTitle: {
+        borderWidth: 8,
+        borderColor: '#B6B6B6',
+        borderRadius: 4,
+        padding: 8,
+        marginBottom: 10,
+        width: '100%',
+        height:'7%',
+        backgroundColor: '#FBFBFB'
+      },
+
+      MotivationHeading: {
+        fontFamily:'Helvetica-Bold',
+        color:'#383838',
+        fontSize:27,
+        textAlign:'left',
+        marginLeft:20,
+        marginBottom:0,
+      },
+
+      button: {
+        //backgroundColor: '#474747',
+        backgroundColor: '#FBFBFB',
+        margin: 15,
+        borderWidth: 6,
+        borderColor: '#6e9f7b',
+        borderRadius: 4,
+        width: 105,
+        height: 50,
+        color: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+
+      buttonsView: {
+        width: '100%',
+        justifyContent:'center',
+        alignItems: 'center'
+
+      },
+
+      buttonText: {
+        //color: 'white',
+        color:'#383838',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20
+      }
 
 });
