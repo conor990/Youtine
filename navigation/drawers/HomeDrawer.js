@@ -185,7 +185,7 @@ const HomeDrawer = () => {
           name="Profile"
           component={ProfileScreen}
           options={{
-            drawerLabel: 'Profile',
+            drawerLabel: 'My Progress',
             drawerIcon: ({ focused, color, size }) => (
               <View>
                 <Text>👤</Text>

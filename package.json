@@ -21,6 +21,7 @@
     "expo-av": "~12.0.4",
     "expo-checkbox": "~2.2.0",
     "expo-device": "~4.3.0",
+    "expo-image-picker": "^13.3.1",
     "expo-status-bar": "~1.4.0",
     "firebase": "8.3.2",
     "idb": "5.0.0",
