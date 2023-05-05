@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export default function TasksComponent(){
+
+const TasksComponent = () => {
 
   const mindTasks = [
     "Write down three things you're grateful for today",
@@ -109,162 +110,167 @@ export default function TasksComponent(){
     'Eat a butternut squash and lentil curry for dinner'
   ];
 
-  const generateRandomTask = (tasks) => {
-    const randomIndex = Math.floor(Math.random() * tasks.length);
-    return tasks[randomIndex];
+  const getRandomTask = (tasksArray) => {
+    const randomIndex = Math.floor(Math.random() * tasksArray.length);
+    return tasksArray[randomIndex];
   };
-  
-  const [tasks, setTasks] = useState([]);
 
-  const storeTasks = async (newTasks) => {
-    try {
-      await AsyncStorage.setItem('@tasks', JSON.stringify(newTasks));
-    } catch (error) {
-      console.error("Error storing tasks:", error);
-    }
-  };
+
+
+  const randomMindTask = getRandomTask(mindTasks);
+  const randomBodyTask = getRandomTask(bodyTasks);
+  const randomMealTask = getRandomTask(mealTasks);
+
+  const [isChecked, setChecked] = useState(false);
+  const [mind, setMind] = useState(false);
+  const [body, setBody] = useState(false);
+  const [meals, setMeals] = useState(false);
+
+
 
   const loadTasks = async () => {
     try {
-      const storedTasks = await AsyncStorage.getItem('@tasks');
-      if (storedTasks !== null) {
-        setTasks(JSON.parse(storedTasks));
+      const savedTasks = await AsyncStorage.getItem("tasks");
+      if (savedTasks !== null) {
+        const { timestamp, mindTask, bodyTask, mealTask } = JSON.parse(savedTasks);
+        const now = new Date().getTime();
+        const timePassed = now - timestamp;
+  
+        if (timePassed < 24 * 60 * 60 * 1000) {
+          // Less than 24 hours have passed
+          return { mindTask, bodyTask, mealTask };
+        }
       }
     } catch (error) {
       console.error("Error loading tasks:", error);
     }
-  };
-  
-  const generateNewTasks = () => {
-    const newTasks = [
-      { id: 1, type: 'mind', title: generateRandomTask(mindTasks), completed: false },
-      { id: 2, type: 'body', title: generateRandomTask(bodyTasks), completed: false },
-      { id: 3, type: 'meal', title: generateRandomTask(mealTasks), completed: false },
-    ];
-    setTasks(newTasks);
-    storeTasks(newTasks);
-  };
-  
-  // Inside your main component or a suitable parent component
-  useEffect(() => {
-    const checkAndGenerateTasks = async () => {
-      const storedTimestamp = await AsyncStorage.getItem('@tasksTimestamp');
-      const currentTime = new Date().getTime();
-
-      if (storedTimestamp === null || currentTime - storedTimestamp >= 24 * 60 * 60 * 1000) {
-        generateNewTasks();
-        await AsyncStorage.setItem('@tasksTimestamp', JSON.stringify(currentTime));
-      } else {
-        loadTasks();
-      }
-    };
-
-    checkAndGenerateTasks();
-  }, []);
-  
-
-  const updateTasksCompleted = (type, increment) => {
-    setTasksCompleted(prevState => {
-      const newValue = increment ? prevState[type] + 1 : prevState[type] - 1;
-      return { ...prevState, [type]: newValue };
-    });
+    return null;
   };
 
-  const storeTasksCompleted = async (newTasksCompleted) => {
+
+
+  const saveTasks = async (mindTask, bodyTask, mealTask) => {
     try {
-      await AsyncStorage.setItem('@tasksCompleted', JSON.stringify(newTasksCompleted));
+      const tasks = {
+        timestamp: new Date().getTime(),
+        mindTask,
+        bodyTask,
+        mealTask,
+      };
+      await AsyncStorage.setItem("tasks", JSON.stringify(tasks));
     } catch (error) {
-      console.error("Error storing tasksCompleted:", error);
+      console.error("Error saving tasks:", error);
     }
   };
   
-  const loadTasksCompleted = async () => {
-    try {
-      const storedTasksCompleted = await AsyncStorage.getItem('@tasksCompleted');
-      if (storedTasksCompleted !== null) {
-        setTasksCompleted(JSON.parse(storedTasksCompleted));
-      }
-    } catch (error) {
-      console.error("Error loading tasksCompleted:", error);
-    }
-  };
 
-  const checkAndGenerateTasks = async () => {
-    const storedTimestamp = await AsyncStorage.getItem('@tasksTimestamp');
-    const currentTime = new Date().getTime();
-  
-    if (storedTimestamp === null || currentTime - storedTimestamp >= 24 * 60 * 60 * 1000) {
-      generateNewTasks();
-      await AsyncStorage.setItem('@tasksTimestamp', JSON.stringify(currentTime));
-      storeTasksCompleted({ mind: 0, body: 0, meal: 0 });
+
+  const [mindTask, setMindTask] = useState("");
+const [bodyTask, setBodyTask] = useState("");
+const [mealTask, setMealTask] = useState("");
+
+useEffect(() => {
+  const initializeTasks = async () => {
+    const savedTasks = await loadTasks();
+    if (savedTasks) {
+      setMindTask(savedTasks.mindTask);
+      setBodyTask(savedTasks.bodyTask);
+      setMealTask(savedTasks.mealTask);
     } else {
-      loadTasks();
-      loadTasksCompleted();
+      const newMindTask = getRandomTask(mindTasks);
+      const newBodyTask = getRandomTask(bodyTasks);
+      const newMealTask = getRandomTask(mealTasks);
+      setMindTask(newMindTask);
+      setBodyTask(newBodyTask);
+      setMealTask(newMealTask);
+      saveTasks(newMindTask, newBodyTask, newMealTask);
     }
   };
-
-
-  useEffect(() => {
-    checkAndGenerateTasks();
-  }, []);
-  
+  initializeTasks();
+}, []);
   
 
 
+    return(
+        
+        <View>
 
-    return (
-      <View>
-          <View style={{width:'100%'}}>
-            <Text style={styles.todaysTasksHeading}>Today's Tasks</Text>
-          </View> 
+            <View style={{width:'100%'}}>
+                <Text style={styles.todaysTasksHeading}>Today's Tasks</Text>
+            </View> 
 
-        {tasks.map((task) => {
-          let iconSource;
-          switch (task.type) {
-            case 'mind':
-              iconSource = require('./assets/bottomNavBar/brainBlack.png');
-              break;
-            case 'body':
-              iconSource = require('./assets/bottomNavBar/weightBlack.png');
-              break;
-            case 'meal':
-              iconSource = require('./assets/bottomNavBar/mealBlack.png');
-              break;
-          }
-  
-          return (
-            <View style={styles.tasksStage} key={task.id}>
 
-              <View style={styles.icon}>
-                <Image style={styles.icons} source={iconSource} />
-              </View>
-              <View style={styles.body}>
-                <Text style={styles.eachTaskHeading}>{task.type.toUpperCase()}</Text>
-                <Text style={styles.taskDesc}>{task.title}</Text>
-              </View>
-              <View style={styles.check}>
-              <Checkbox
-                  style={styles.checkbox}
-                  value={task.completed}
-                  onValueChange={(newValue) => {
-                    setTasks(
-                      tasks.map((t) =>
-                        t.id === task.id ? { ...task, completed: newValue } : t
-                      )
-                    );
-                    updateTasksCompleted(task.type, newValue);
-                  }}
-                  color={task.completed ? '#ffbe56' : '#fff'}
-                />
 
-              </View>
+            <View style={styles.tasksStage}>
+                <View style={styles.icon}>
+                    <Image style={styles.icons} source={require('./assets/bottomNavBar/brainBlack.png')} />
+                </View>
+                <View style={styles.body}>
+                    <Text style={styles.eachTaskHeading}>MIND</Text>
+                    <Text style={styles.taskDesc}>{mindTask}</Text>
+                </View>
+                <View style={styles.check}>
+                    <Checkbox
+                            style={styles.checkbox}
+
+                            value={mind}
+                            onValueChange={setMind}
+                            color={mind ? '#ffbe56' : '#fff'}
+                        />
+                </View>
             </View>
-          );
-        })}
-      </View>
-    );
-  }
+            
 
+
+
+
+            <View style={styles.tasksStage}>
+                <View style={styles.icon}>
+                     <Image style={styles.icons} source={require('./assets/bottomNavBar/weightBlack.png')} />
+                </View>
+                <View style={styles.body}>
+                     <Text style={styles.eachTaskHeading}>BODY</Text>
+                     <Text style={styles.taskDesc}>{bodyTask}</Text>
+                </View>
+                <View style={styles.check}>
+                    <Checkbox
+                            style={styles.checkbox}
+                            value={body}
+                            onValueChange={setBody}
+                            color={body ? '#ffbe56' : '#fff'}
+                        />
+                </View>
+            </View>
+
+
+
+
+            <View style={styles.tasksStage}>
+                <View style={styles.icon}>
+                      <Image style={styles.icons} source={require('./assets/bottomNavBar/mealBlack.png')} />
+                </View>
+                <View style={styles.body}>
+                    <Text style={styles.eachTaskHeading}>MEALS</Text>
+                    <Text style={styles.taskDesc}>{mealTask}</Text>
+                </View>
+                <View style={styles.check}>
+                    <Checkbox
+                        style={styles.checkbox}
+                        value={meals}
+                        onValueChange={setMeals}
+                        color={meals ? '#ffbe56' : '#fff'}
+                    />
+                </View>
+            </View>
+
+
+
+
+        </View>
+
+
+    );
+}
 
 const styles = StyleSheet.create({
     tasksStage: {
@@ -341,4 +347,4 @@ const styles = StyleSheet.create({
       }
 });
 
- 
+export default TasksComponent;
