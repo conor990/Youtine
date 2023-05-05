@@ -165,18 +165,50 @@ const TasksComponent = () => {
   
 
 
-  const [mindTask, setMindTask] = useState("");
+const [mindTask, setMindTask] = useState("");
 const [bodyTask, setBodyTask] = useState("");
 const [mealTask, setMealTask] = useState("");
 
+const isNewDay = async () => {
+  try {
+    const lastSavedString = await AsyncStorage.getItem('lastSaved');
+    if (lastSavedString) {
+      const lastSaved = new Date(lastSavedString);
+      const now = new Date();
+      return (
+        now.getDate() !== lastSaved.getDate() ||
+        now.getMonth() !== lastSaved.getMonth() ||
+        now.getFullYear() !== lastSaved.getFullYear()
+      );
+    } else {
+      await AsyncStorage.setItem('lastSaved', new Date().toISOString());
+      return true;
+    }
+  } catch (error) {
+    console.error('Error checking if it is a new day:', error);
+  }
+};
+
+
+const [completedMindTasks, setCompletedMindTasks] = useState(0);
+const [completedBodyTasks, setCompletedBodyTasks] = useState(0);
+const [completedMealTasks, setCompletedMealTasks] = useState(0);
+
 useEffect(() => {
   const initializeTasks = async () => {
+    const isNewDayResult = await isNewDay();
     const savedTasks = await loadTasks();
-    if (savedTasks) {
+    
+    if (!isNewDayResult && savedTasks) {
       setMindTask(savedTasks.mindTask);
       setBodyTask(savedTasks.bodyTask);
       setMealTask(savedTasks.mealTask);
     } else {
+      saveCompletedTasks(
+        mind ? completedMindTasks + 1 : completedMindTasks,
+        body ? completedBodyTasks + 1 : completedBodyTasks,
+        meals ? completedMealTasks + 1 : completedMealTasks
+      );
       const newMindTask = getRandomTask(mindTasks);
       const newBodyTask = getRandomTask(bodyTasks);
       const newMealTask = getRandomTask(mealTasks);
@@ -184,9 +216,74 @@ useEffect(() => {
       setBodyTask(newBodyTask);
       setMealTask(newMealTask);
       saveTasks(newMindTask, newBodyTask, newMealTask);
+      setMind(false);
+      setBody(false);
+      setMeals(false);
     }
   };
+
   initializeTasks();
+}, []);
+
+
+const loadCompletedTasks = async () => {
+  try {
+    const savedCompletedTasks = await AsyncStorage.getItem("completedTasks");
+    if (savedCompletedTasks !== null) {
+      const { mind, body, meals } = JSON.parse(savedCompletedTasks);
+      setCompletedMindTasks(mind);
+      setCompletedBodyTasks(body);
+      setCompletedMealTasks(meals);
+    }
+  } catch (error) {
+    console.error("Error loading completed tasks:", error);
+  }
+};
+
+
+
+const saveCompletedTasks = async (mind, body, meals) => {
+  try {
+    const completedTasks = {
+      mind,
+      body,
+      meals,
+    };
+    await AsyncStorage.setItem("completedTasks", JSON.stringify(completedTasks));
+  } catch (error) {
+    console.error("Error saving completed tasks:", error);
+  }
+};
+
+
+useEffect(() => {
+  loadCompletedTasks();
+}, []);
+
+
+useEffect(() => {
+  const loadCheckboxes = async () => {
+    try {
+      const mindValue = await AsyncStorage.getItem("mindCheckbox");
+      if (mindValue !== null) {
+        setMind(mindValue === "true");
+      }
+      
+      const bodyValue = await AsyncStorage.getItem("bodyCheckbox");
+      if (bodyValue !== null) {
+        setBody(bodyValue === "true");
+      }
+      
+      const mealsValue = await AsyncStorage.getItem("mealsCheckbox");
+      if (mealsValue !== null) {
+        setMeals(mealsValue === "true");
+      }
+    } catch (error) {
+      console.error("Error loading checkboxes:", error);
+    }
+  };
+  
+  loadCheckboxes();
 }, []);
   
 
@@ -210,13 +307,22 @@ useEffect(() => {
                     <Text style={styles.taskDesc}>{mindTask}</Text>
                 </View>
                 <View style={styles.check}>
-                    <Checkbox
-                            style={styles.checkbox}
+                <Checkbox
+                  style={styles.checkbox}
+                  value={mind}
+                  onValueChange={(newValue) => {
+                    setMind(newValue);
+                    AsyncStorage.setItem("mindCheckbox", newValue.toString());
+                    
+                    if (newValue) {
+                      setCompletedMindTasks(completedMindTasks + 1);
+                    } else {
+                      setCompletedMindTasks(completedMindTasks - 1);
+                    }
+                  }}
+                  color={mind ? '#ffbe56' : '#383838'}
+                />
 
-                            value={mind}
-                            onValueChange={setMind}
-                            color={mind ? '#ffbe56' : '#fff'}
-                        />
                 </View>
             </View>
             
@@ -233,12 +339,22 @@ useEffect(() => {
                      <Text style={styles.taskDesc}>{bodyTask}</Text>
                 </View>
                 <View style={styles.check}>
-                    <Checkbox
-                            style={styles.checkbox}
-                            value={body}
-                            onValueChange={setBody}
-                            color={body ? '#ffbe56' : '#fff'}
-                        />
+                <Checkbox
+                  style={styles.checkbox}
+                  value={body}
+                  onValueChange={(newValue) => {
+                    setBody(newValue);
+                    AsyncStorage.setItem("bodyCheckbox", newValue.toString());
+                    
+                    if (newValue) {
+                      setCompletedMindTasks(completedBodyTasks + 1);
+                    } else {
+                      setCompletedMindTasks(completedBodyTasks - 1);
+                    }
+                  }}
+                  color={body ? '#ffbe56' : '#383838'}
+                />
+
                 </View>
             </View>
 
@@ -254,12 +370,22 @@ useEffect(() => {
                     <Text style={styles.taskDesc}>{mealTask}</Text>
                 </View>
                 <View style={styles.check}>
-                    <Checkbox
-                        style={styles.checkbox}
-                        value={meals}
-                        onValueChange={setMeals}
-                        color={meals ? '#ffbe56' : '#fff'}
-                    />
+                <Checkbox
+                  style={styles.checkbox}
+                  value={meals}
+                  onValueChange={(newValue) => {
+                    setMeals(newValue);
+                    AsyncStorage.setItem("mealCheckbox", newValue.toString());
+                    
+                    if (newValue) {
+                      setCompletedMindTasks(completedMealTasks + 1);
+                    } else {
+                      setCompletedMindTasks(completedMealTasks - 1);
+                    }
+                  }}
+                  color={meals ? '#ffbe56' : '#383838'}
+                />
+
                 </View>
             </View>
 
