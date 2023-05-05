@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image} from 'react-native';
 import Checkbox from 'expo-checkbox';
 import {useState, useEffect} from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { firestore } from '../firebase'
 
 
 
@@ -286,6 +286,54 @@ useEffect(() => {
   loadCheckboxes();
 }, []);
   
+
+
+
+      //user firestore
+      // Function to add an item to a user's "checkedItems" array
+      const checkItem = async (itemId) => {
+        const user = auth.currentUser;
+        const userDocRef = firestore.collection('users').doc(user.uid);
+        const userDoc = await userDocRef.get();
+      
+        if (userDoc.exists) {
+          const checkedItems = userDoc.data().checkedItems || [];
+          if (!checkedItems.includes(itemId)) {
+            checkedItems.push(itemId);
+            userDocRef.update({ checkedItems });
+          }
+        }
+      };
+      
+      // Function to retrieve the user's checked items
+      const getCheckedItems = async () => {
+        const user = auth.currentUser;
+        const userDocRef = firestore.collection('users').doc(user.uid);
+        const userDoc = await userDocRef.get();
+      
+        if (userDoc.exists) {
+          return userDoc.data().checkedItems || [];
+        }
+        return [];
+      };
+      
+      // Call checkItem(itemId) when a user checks an item
+      // Call getCheckedItems() to retrieve the user's checked items
+      const handleTaskCompleted = async (taskId) => {
+        const user = auth.currentUser;
+        const userDocRef = firestore.collection('users').doc(user.uid);
+        const userDoc = await userDocRef.get();
+      
+        if (userDoc.exists) {
+          const completedTasks = userDoc.data().completedTasks || [];
+          if (!completedTasks.includes(taskId)) {
+            completedTasks.push(taskId);
+            userDocRef.update({ completedTasks: completedTasks });
+          }
+        } else {
+          console.error('User document not found!');
+        }
+      };
 
 
     return(
