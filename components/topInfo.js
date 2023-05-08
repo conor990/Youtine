@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import {AsyncStorage} from '@react-native-async-storage/async-storage';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firestore } from '../firebase';
 
 
@@ -58,20 +58,7 @@ const TopInfoComponent = ({ currentUser }) => {
   }, []);
 
 
-  useEffect(() => {
-    async function getStreak() {
-      try {
-        const value = await AsyncStorage.getItem('streak');
-        if (value !== null) {
-          setStreak(parseInt(value));
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  
-    getStreak();
-  }, []);
+
   
 
   return (

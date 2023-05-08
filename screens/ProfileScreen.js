@@ -1,7 +1,10 @@
-import { StyleSheet, View, Text, Image, Button} from 'react-native';
+import { StyleSheet, View, Text, Image, Button,TouchableOpacity} from 'react-native';
 import { auth } from '../firebase'
 import React, { useState, useEffect } from 'react';
 import { firestore } from '../firebase';
+import * as ImagePicker from 'expo-image-picker';
+import { storage } from '../firebase';
+
 
 
 export default function ProfileScreen({ navigation }){
@@ -26,6 +29,77 @@ export default function ProfileScreen({ navigation }){
     fetchNoteCount();
   }, []);
 
+
+  const [profileImage, setProfileImage] = useState(null);
+
+
+  useEffect(() => {
+    console.log('Profile image updated:', profileImage);
+  }, [profileImage]);
+  
+
+
+  useEffect(() => {
+    const fetchProfileImage = async () => {
+      const userId = auth.currentUser.uid;
+      const snapshot = await firestore.collection('mypic').doc(userId).get();
+      if (snapshot.exists) {
+        setProfileImage(snapshot.data().photoURL);
+        console.log('profile picture set');
+      }
+    };
+
+    fetchProfileImage();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
+    });
+  
+    if (!result.canceled && result.assets && result.assets.length > 0) {
+      const asset = result.assets[0];
+      uploadImage(asset.uri);
+    }
+  };
+  
+
+  const uploadImage = async (uri) => {
+    console.log('Uploading image:', uri); // Add console log
+  
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const userId = auth.currentUser.uid;
+    const ref = storage.ref().child(`profileImages/${userId}`);
+  
+    const uploadTask = ref.put(blob);
+  
+    uploadTask.on(
+      'state_changed',
+      null,
+      (error) => {
+        console.error(error);
+      },
+      async () => {
+        const downloadURL = await uploadTask.snapshot.ref.getDownloadURL();
+        console.log('Image uploaded successfully, downloadURL:', downloadURL); // Add console log
+  
+        await firestore.collection('mypic').add({
+          photoURL: downloadURL,
+          userId,
+        });
+        console.log('Firestore updated successfully'); // Add console log
+        setProfileImage(downloadURL); // Move this line here
+      }
+    );
+  };
+  
+  
+
+
     return(
         <View style={styles.container}>
           <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
@@ -40,7 +114,12 @@ export default function ProfileScreen({ navigation }){
                 </View>
 
                 <View style={styles.pictureView}>
-                  <Image style={styles.profilePicture} source={require('../components/assets/profilepage/profilePic.jpg')} />
+                  <TouchableOpacity onPress={pickImage}>
+                    <Image
+                      style={styles.profilePicture}
+                      source={profileImage ? { uri: profileImage } : require('../components/assets/profilepage/profilePic.jpg')}
+                    />
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.nameView}>
                   <Text style={styles.nameText}>{auth.currentUser?.email}</Text>
@@ -107,18 +186,16 @@ const styles = StyleSheet.create({
   },
 
   pictureView: {
-    width:'90%',
+    width:'50%',
     height:190,
    // marginTop:'5%'
   },
 
   profilePicture: {
-    width: '50%',
-    height: '95%',
+    width: '100%',
+    height: '100%',
     borderRadius: 100,
     alignSelf: 'center'
-
-    
   },
 
 

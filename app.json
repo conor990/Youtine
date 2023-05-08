@@ -16,7 +16,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow access to your photo library to choose a beautiful profile picture 🖼️",
+        "NSCameraUsageDescription": "Allow access to your camera to take a beautiful profile picture 📸"
+      }
     },
     "android": {
       "adaptiveIcon": {

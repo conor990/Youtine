@@ -2,7 +2,7 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, Vi
 import React, {useState, useEffect} from 'react';
 import { firestore } from '../firebase'
 import { auth } from '../firebase'
-import {AsyncStorage} from '@react-native-async-storage/async-storage'
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({navigation}) => {
 
@@ -46,21 +46,32 @@ const LoginScreen = ({navigation}) => {
       }
 
 
-    const handleLogin = () => {
+      const handleLogin = () => {
         auth
-        .signInWithEmailAndPassword(email, password)
-        .then(userCredentials => {
-          const user = userCredentials.user;
-          console.log('Logged in with', user.email);
+          .signInWithEmailAndPassword(email, password)
+          .then(async (userCredentials) => {
+            const user = userCredentials.user;
+            console.log('Logged in with', user.email);
       
-          // Increment streak and save to AsyncStorage
-          const newStreak = streak + 1;
-          AsyncStorage.setItem('streak', newStreak.toString());
-          setStreak(newStreak);
-        })
-        .catch(error => alert(error.message))
-      }
+            // Increment streak and save to Firestore
+            const userDocRef = firestore.collection('users').doc(user.uid);
+            const userDoc = await userDocRef.get();
       
+            if (userDoc.exists) {
+              const currentStreak = userDoc.data().streak || 0;
+              const newStreak = currentStreak + 1;
+              userDocRef.update({ streak: newStreak });
+            } else {
+              // If the user document is not found, create a new document with an initial streak of 1
+              userDocRef.set({ streak: 1 });
+            }
+          })
+          .catch((error) => alert(error.message));
+      };
+      
+      
+
+
 
     
  
