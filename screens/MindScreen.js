@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, Button, ScrollView, TouchableOpacity, FlatList,TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, } from 'react-native';
 import InspoComponent from '../components/inspo';
 import { auth } from '../firebase'
 import { firestore } from '../firebase'
@@ -51,7 +51,7 @@ export default function MindScreen({ navigation }){
 
 
 
-        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollViewInspo}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={styles.scrollViewInspo} testID="scroll-view-inspo">
           <InspoComponent onNewQuote={(quote) => addNewQuote(quote)} />
           {previousQuotes.map((q, index) => (
               <View key={index} style={styles.inspo}>
@@ -68,7 +68,7 @@ export default function MindScreen({ navigation }){
 
 
   
-        <ScrollView style={styles.ScrollView}>
+        <ScrollView style={styles.ScrollView} testID="scroll-view-notes">
 
         <View style={{
         width:'100%',

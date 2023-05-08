@@ -1,17 +1,38 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, Button, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View,Image, TouchableOpacity } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ArmsScreen from './body/ArmsScreen';
-import LegsScreen from './body/LegsScreen';
-import AbsScreen from './body/AbsScreen';
-import ChestScreen from './body/ChestScreen';
+
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <Text>Something went wrong.</Text>;
+    }
+
+    return this.props.children;
+  }
+}
+
 
 const Stack = createNativeStackNavigator();
 
 export default function BodyScreen({ navigation }){
 
     return(
+      <ErrorBoundary>
         <View style={styles.container}>
-            <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
+            <Image style={styles.logo} source={require('../components/assets/logoLong.png')} testID="logo" />
   
             <View style={styles.mainStage}>
 
@@ -19,7 +40,7 @@ export default function BodyScreen({ navigation }){
                     <Text style={styles.PageHeading}>What would you like to workout ?...</Text>
                 </View>
 
-                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Arms')}>
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Arms')} testID="armsWorkoutOption">
                   <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Arms</Text>
@@ -32,7 +53,7 @@ export default function BodyScreen({ navigation }){
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Chest')}>
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Chest')} testID="chestWorkoutOption">
                    <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Chest</Text>
@@ -45,7 +66,7 @@ export default function BodyScreen({ navigation }){
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Abs')}>
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Abs')} testID="absWorkoutOption">
                     <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Abs</Text>
@@ -58,7 +79,7 @@ export default function BodyScreen({ navigation }){
                     </View>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Legs')}>
+                <TouchableOpacity style={styles.tasksStage} onPress={() => navigation.navigate('Legs')} testID="legsWorkoutOption">
                   <View style={styles.allInfo}>
                         <View style={styles.left}>
                             <Text style={styles.workoutHeading}>Legs</Text>
@@ -75,6 +96,7 @@ export default function BodyScreen({ navigation }){
 
 
         </View>
+        </ErrorBoundary>
     );
 }
 

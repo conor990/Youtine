@@ -1,7 +1,6 @@
-import { StyleSheet, ScrollView, Text, View, SafeAreaView, Image, Button, TextInput, TouchableOpacity, ActivityIndicator, Keyboard} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image,  TextInput, TouchableOpacity, ActivityIndicator, Keyboard} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, {useState, useEffect} from 'react';
-//import { ActivityIndicator } from 'react-native-web';
 import { FlatList } from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
@@ -34,7 +33,7 @@ export default function MealsScreen({ navigation }){
 
     return(
         <View style={styles.container}>
-        <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
+        <Image style={styles.logo} source={require('../components/assets/logoLong.png')} testID="logo" />
   
         <View style={styles.mainStage}>
 
@@ -55,6 +54,7 @@ export default function MealsScreen({ navigation }){
              keyboardType='number-pad'
              onChangeText={text => setNumberOfRecipes(text)}
              value={numberOfRecipes}
+             testID="number-of-recipes-input"
             />
           </View>
 
@@ -89,7 +89,9 @@ export default function MealsScreen({ navigation }){
                   </View>
                 </View>
               )}
-              keyExtractor={(item, index) => index.toString()} />}
+              keyExtractor={(item, index) => index.toString()} 
+              testID="recipes-list"/>}
+              
           </SafeAreaView>
 
 

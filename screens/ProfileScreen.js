@@ -129,19 +129,19 @@ export default function ProfileScreen({ navigation }){
                 <View style={styles.infoView}>
                   <View style={styles.emojiView}><Text style={styles.emoji}>🧠</Text></View>
                   <View style={styles.innerTextView}><Text style={styles.innerText}>Mind tasks completed</Text></View>
-                  <View style={styles.numberView}><Text style={styles.numberText}>00</Text></View>
+                  <View style={styles.numberView}><Text style={styles.numberText}>1</Text></View>
                 </View>
 
                 <View style={styles.infoView}>
                   <View style={styles.emojiView}><Text style={styles.emoji}>🤸</Text></View>
                   <View style={styles.innerTextView}><Text style={styles.innerText}>Body tasks completed</Text></View>
-                  <View style={styles.numberView}><Text style={styles.numberText}>00</Text></View>
+                  <View style={styles.numberView}><Text style={styles.numberText}>1</Text></View>
                 </View>
 
                 <View style={styles.infoView}>
                   <View style={styles.emojiView}><Text style={styles.emoji}>🥗</Text></View>
                   <View style={styles.innerTextView}><Text style={styles.innerText}>Meal tasks completed</Text></View>
-                  <View style={styles.numberView}><Text style={styles.numberText}>00</Text></View>
+                  <View style={styles.numberView}><Text style={styles.numberText}>1</Text></View>
                 </View>
 
                 <View style={styles.infoView}>
