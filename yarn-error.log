@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\conor\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-async-storage/async-storage@~1.17.3
+  C:\Program Files\nodejs\node.exe C:\Users\conor\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add --dev jest babel-jest @babel/core @babel/preset-env @babel/preset-react react-test-renderer @testing-library/react-native
 
 PATH: 
   C:\Users\conor\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\conor\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\Intel\TXE Components\DAL;C:\Program Files (x86)\Intel\TXE Components\DAL;C:\Program Files\Intel\TXE Components\IPT;C:\Program Files (x86)\Intel\TXE Components\IPT;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Java\jdk-13.0.2\bin;C:\Program Files\dotnet;C:\Program Files\Git\cmd;C:\Program Files\Git\usr\bin;C:\Program Files\nodejs;C:\Ruby31-x64\bin;C:\Users\conor\AppData\Local\Programs\Python\Python310\Scripts;C:\Users\conor\AppData\Local\Programs\Python\Python310;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\conor\AppData\Local\Microsoft\WindowsApps;C:\Users\conor\AppData\Local\Microsoft\WindowsApps;C:\Users\conor\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\conor\.fly\bin;C:\Program Files\heroku\bin;C:\Users\conor\AppData\Local\Yarn\bin;C:\Users\conor\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
@@ -14,17 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/react-native-async-storage%2fasync-storage: Request "https://registry.yarnpkg.com/react-native-async-storage%2fasync-storage" returned a 405
-      at params.callback [as _callback] (C:\Users\conor\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66154:18)
-      at self.callback (C:\Users\conor\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140890:22)
-      at Request.emit (node:events:513:28)
-      at Request.<anonymous> (C:\Users\conor\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141862:10)
-      at Request.emit (node:events:513:28)
-      at IncomingMessage.<anonymous> (C:\Users\conor\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141784:12)
-      at Object.onceWrapper (node:events:627:28)
-      at IncomingMessage.emit (node:events:525:35)
-      at endReadableNT (node:internal/streams/readable:1359:12)
-      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+  Error: EPERM: operation not permitted, open 'C:\Users\conor\OneDrive - National College of Ireland\Desktop\Project\Youtine\node_modules\@babel\helper-compilation-targets\node_modules\update-browserslist-db\node_modules\.bin\browserslist.cmd'
 
 npm manifest: 
   {
@@ -39,7 +29,7 @@ npm manifest:
     },
     "dependencies": {
       "@expo/webpack-config": "^0.17.0",
-      "@react-native-async-storage/async-storage": "react-native-async-storage/async-storage",
+      "@react-native-async-storage/async-storage": "~1.17.3",
       "@react-native-community/checkbox": "^0.5.12",
       "@react-navigation/bottom-tabs": "^6.5.2",
       "@react-navigation/drawer": "^6.6.2",
@@ -50,6 +40,7 @@ npm manifest:
       "expo-av": "~12.0.4",
       "expo-checkbox": "~2.2.0",
       "expo-device": "~4.3.0",
+      "expo-image-picker": "^13.3.1",
       "expo-status-bar": "~1.4.0",
       "firebase": "8.3.2",
       "idb": "5.0.0",
@@ -2166,9 +2157,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
     integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
   
-  "@react-native-async-storage/async-storage@react-native-async-storage/async-storage":
-    version "1.18.1"
-    resolved "https://codeload.github.com/react-native-async-storage/async-storage/tar.gz/ba983157c127f77b5bb0ece3c09e3077c978bc6d"
+  "@react-native-async-storage/async-storage@~1.17.3":
+    version "1.17.12"
+    resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.17.12.tgz#a39e4df5b06795ce49b2ca5b7ca9b8faadf8e621"
+    integrity sha512-BXg4OxFdjPTRt+8MvN6jz4muq0/2zII3s7HeT/11e4Zeh3WCgk/BleLzUcDfVqF3OzFHUqEkSrb76d6Ndjd/Nw==
     dependencies:
       merge-options "^3.0.4"
   
@@ -5208,6 +5200,20 @@ Lockfile:
     integrity sha512-sxy5GrdtY+Ka8Wo5wnrcFFeO6MbYC6Dris5wMLqshvVK6BneJNMUsFvwRfvVgg0TzsmMAc3Rlca2xyZ8ettinw==
     dependencies:
       fontfaceobserver "^2.1.0"
+  
+  expo-image-loader@~3.2.0:
+    version "3.2.0"
+    resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-3.2.0.tgz#d98b021660edef7243f7c5ec011b8d0545626d41"
+    integrity sha512-LU3Q2prn64/HxdToDmxgMIRXS1ZvD9Q3iCxRVTZn1fPQNNDciIQFE5okaa74Ogx20DFHs90r6WoUd7w9Af1OGQ==
+  
+  expo-image-picker@^13.3.1:
+    version "13.3.1"
+    resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-13.3.1.tgz#7e8fe1dd7a58ab9e0fa17569ab6b64256ece0c98"
+    integrity sha512-IY84uDu9uxetAup5yw0CIIujigl/lM3grwyfpeZFMKGmWHzmKamptjd/sG8K65xkb6tF9awmGMW0qglHQ9hakQ==
+    dependencies:
+      "@expo/config-plugins" "~5.0.0"
+      expo-image-loader "~3.2.0"
+      uuid "7.0.2"
   
   expo-keep-awake@~10.2.0:
     version "10.2.1"
@@ -11338,6 +11344,11 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
     integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+  
+  uuid@7.0.2:
+    version "7.0.2"
+    resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
+    integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
   
   uuid@^3.3.2, uuid@^3.4.0:
     version "3.4.0"

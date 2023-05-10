@@ -1,12 +1,9 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, Button } from 'react-native';
+import { StyleSheet, View, Image,} from 'react-native';
 import InspoComponent from '../components/inspo';
 import TopInfoComponent from '../components/topInfo';
 import TasksComponent from '../components/tasks';
-import MindScreen from "./MindScreen";
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { auth, firestore } from '../firebase';
+import { auth,} from '../firebase';
 
 
 export default function HomeScreen({ navigation }) { 
@@ -24,15 +21,18 @@ export default function HomeScreen({ navigation }) {
   return (
 
       <View style={styles.container}>
-        <Image style={styles.logo} source={require('../components/assets/logoLong.png')} />
+        <Image 
+         style={styles.logo}
+         source={require('../components/assets/logoLong.png')}
+         testID="logo" />
 
         <View style={styles.mainStage}>
 
-        <TopInfoComponent currentUser={currentUser} />
+        <TopInfoComponent currentUser={currentUser} testID="topInfoComponent" />
 
-        <InspoComponent/>
+        <InspoComponent testID="inspoComponent" />
 
-        <TasksComponent/>
+        <TasksComponent testID="tasksComponent" />
 
         
         </View>
